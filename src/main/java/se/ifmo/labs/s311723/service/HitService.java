@@ -24,7 +24,7 @@ public class HitService {
         hit.setDateTime(LocalDateTime.now());
         User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         hit.setUser(user);
-        hit.setExecTime(System.nanoTime() - startTime);
+        hit.setExecTime((System.nanoTime() - startTime) / 1000000000d);
         hitRepository.save(hit);
     }
 
