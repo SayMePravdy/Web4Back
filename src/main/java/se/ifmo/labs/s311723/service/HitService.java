@@ -19,6 +19,11 @@ public class HitService {
     @Autowired
     private HitRepository hitRepository;
 
+    public List<Hit> getAllUserHits() {
+        return hitRepository.findAllByUser_id(userService.findByLogin(
+                SecurityContextHolder.getContext().getAuthentication().getName()).getId());
+    }
+
     public void hit(Hit hit, double startTime) {
         hit.setHit(checkHit(hit));
         hit.setDateTime(LocalDateTime.now());

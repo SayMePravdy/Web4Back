@@ -31,7 +31,8 @@ public class AuthController {
         User user = userMapper.DtoToUser(userDTO);
         try {
             userService.saveUser(user);
-            return ResponseEntity.ok().body("User added");
+            String token = jwtProvider.generateToken(user.getLogin());
+            return ResponseEntity.ok().body(token);
         } catch (FailedRegisterUserException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

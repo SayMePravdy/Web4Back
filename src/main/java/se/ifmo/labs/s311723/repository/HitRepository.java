@@ -9,4 +9,5 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
 
     List<Hit> findAllByUser_id(Long user_id);
 
+
 }
