@@ -1,6 +1,7 @@
 package se.ifmo.labs.s311723.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +10,9 @@ import se.ifmo.labs.s311723.dto.HitResponseDTO;
 import se.ifmo.labs.s311723.entity.Hit;
 import se.ifmo.labs.s311723.mappers.HitMapper;
 import se.ifmo.labs.s311723.service.HitService;
-import se.ifmo.labs.s311723.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -41,12 +40,19 @@ public class HitController {
         double startTime = System.nanoTime();
         Hit hit = hitMapper.hitDtoToHit(hitRequestDTO);
         hitService.hit(hit, startTime);
-        return new ResponseEntity<>(hitMapper.hitToHitDto(hit), HttpStatus.OK);
+        HitResponseDTO hitResponseDTO = hitMapper.hitToHitDto(hit);
+        return new ResponseEntity<>(hitResponseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/clear")
     public ResponseEntity<?> clear() {
         hitService.clear();
         return ResponseEntity.ok().body("Hits deleted");
+    }
+
+    @DeleteMapping("/deleteHit")
+    public ResponseEntity<?> deleteHit(@Param("x") double x, @Param("y") double y, @Param("r") int r) {
+        hitService.delete(x, y, r);
+        return ResponseEntity.ok().body("Hit deleted");
     }
 }

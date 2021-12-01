@@ -39,6 +39,10 @@ public class HitService {
         hitRepository.deleteAllInBatch(userHits);
     }
 
+    public void delete(double x, double y, int r) {
+        hitRepository.deleteHit(x, y, r, SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
     private boolean checkHit(Hit hit) {
         double x = hit.getX();
         double y = hit.getY();
